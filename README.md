@@ -8,9 +8,9 @@ We are an **Indian telecom company** experiencing customer churn. Our goal is to
 
 ## 📂 Data Collection
 
-The data comes from telecom churn records of Indian telecom companies. The dataset consists of **243,553 rows**, but for the purpose of reducing processing time, we sample **10,000 rows**.
+The data comes from telecom churn records of Indian telecom companies. The dataset consists of **243,553 rows**, of which we sample **10,000 rows** to optimize time spent training models.
 
-### Variables in the dataset:
+### Attributes in the dataset:
 - **customer_id**: Unique identifier for each customer.
 - **telecom_partner**: Telecom provider for the customer.
 - **gender**: Gender of the customer.
@@ -41,25 +41,25 @@ We also visualize the distribution of features and their relationship with the t
 - **Women are more likely to churn** than men.
 - **Vodafone** had the highest churn rate.
 - **Age** exhibits fluctuating churn rates, with lower churn around age **50**.
-- **Sikkim** (state) and **Kolkata** (city) had the highest churn rates.
+- The state of **Sikkim** and the city of **Kolkata** had the highest churn rates.
 
 ---
 
 ## 🔧 Data Preprocessing
 
-In the preprocessing stage, we check for missing and invalid values and remove duplicates. The following changes were applied:
+In the preprocessing stage, we check for missing and invalid values, remove duplicates and create new features. The following changes were applied:
 
 1. **date_of_registration** converted from **object** to **datetime**.
-2. Removed any leading or trailing spaces from string variables.
-3. Created new **binned variables**:
+2. Removed any leading or trailing spaces from categorical features.
+3. Created new **binned features**:
    - **age_bracket**: Categorical variable (young, middle-aged, old).
    - **salary_bracket**: Categorical variable (low_salary, mid_salary, high_salary).
-   - **month**: The month (1-12) when the customer registered.
+   - **month**: The month (1-12) when the customer registered with the telecom provider.
 4. **Visualization** of churn rate for the new variables reveals:
    - **Age bracket** has minimal impact on churn.
    - **Salary bracket** has moderate impact on churn.
    - **Month** has a significant impact on churn.
-5. We drop variables with **high cardinality** (many unique values) and those with **low variance** between churned and non-churned customers.
+5. We drop variables with **high cardinality** (many unique values) and those with **low variance** between churn and no churn. 
 
 ---
 
@@ -67,45 +67,52 @@ In the preprocessing stage, we check for missing and invalid values and remove d
 
 We apply machine learning to train models using the following features:
 - **telecom_partner**
-- **gender**
 - **state**
 - **city**
+- **num_dependents**
 - **month**
-- **age_bracket**
+- **age**
 - **salary_bracket**
 
 ### Training Process:
 1. Split the dataset into **training (80%)** and **testing (20%)** sets, ensuring **stratification** to handle class imbalance.
 2. **One-Hot Encoding** applied to categorical features.
-3. **SMOTE** (Synthetic Minority Over-sampling Technique) used to oversample churned customers (value = 1) for balance.
-4. **Pipelines** created to include one-hot encoding, SMOTE, and classifier model with **balanced class weights**.
+3. **SMOTE** (Synthetic Minority Over-sampling Technique) used to oversample churned customers to ensure balance between values.
+4. **Pipelines** created to go through the process of applying one-hot encoding, SMOTE, and training the classifier model.
 5. **Hyperparameter tuning** performed using **GridSearchCV** based on **F1 score**, balancing precision and recall.
-6. Evaluated each model, selecting the one with the highest recall and at least **70% accuracy**.
+6. Evaluated each model, selecting the one with the highest f1-score and at least **70% accuracy**.
 
 ---
 
 ## 🧐 Model Interpretation
 
 We interpret the model using:
-- **Feature Importances** from the best-performing model.
-- **SHAP (Shapley Additive Explanations)** to explain the global impact of features on churn prediction.
-- **Partial Dependence Plots (PDP)** to examine the impact of selected features.
+- **Feature Importances** from the best-performing model to explain which factors has the highest influence in predicting churn.
+- **SHAP (Shapley Additive Explanations) summary plot** to explain the global impact of features on churn prediction.
+- **SHAP mean values** to see whether features are more likely to cause churn or non-churn on average.
+- **Count of positive and negative SHAP values per feature** to see the distribution of positive(churn likely) and negative(churn unlikely) shap values for each feature.
+- **Precision-Recall Curve** To assess the model's ability to distinguish churners from non-churners.
+- **Partial Dependence Plots (PDP)** to examine the isolated impact of selected features on churn.
 
 ### Findings:
-- **Madhya Pradesh** state, and **Months 1, 5, and 11** show high correlation with churn.
-- **Gender** has a **negligible** impact on churn.
+- The state of Chennai seems to strongly induce non-churning. It has both the highest model feature importance at 0.05 and the lowest mean shap value of -0.12.
+- Age fluctuates a lot and may both contribute positively and negatively to churning. On average it induces churn, with higher churn rates at about 20, 40 and 65 years old.
+- The state of Assam seems to moderately cause churn with the highest mean shap value and a partial dependence value of more than 0.25.
+- Number of children (num_dependents) seem to strongly induce non-churning at 1 and 4 children, having an average SHAP value of -0.11 and -0.07 respectively.
+- The first month also seems to consistently be related with low churning, with high importance in both feature importance, shap summary plot, mean shap value at -0.07 and a high number of negative shap values at 1573.
 
 ---
 
 ## 🚀 Model Deployment
 
-The model is deployed via a **Streamlit dashboard**. Key features include:
+We deploy the model via a **Streamlit dashboard** with interactivity and dynamic visuals. Key features include:
 
 - A **title** for the dashboard.
 - **Sidebar filters** to change the variables and update visuals dynamically.
 - A **filtered dataset** that reflects the changes based on the selected filters.
 - A **countplot** showing churn distribution.
 - A **histplot with KDE** for age distribution.
+- A **SHAP individual feature contribution plot** to see feature contributions to churn prediction for the selected customer.
 - **Partial dependence plots** for the selected variables.
 
 We save model components in the **.pkl** format and the dataset in the **.parquet** format for loading into the Streamlit app.
@@ -113,5 +120,8 @@ We save model components in the **.pkl** format and the dataset in the **.parque
 ---
 
 ## Conclusion
-We should experiment with marketing campaigns targeting women, people around the age of 50, people living in Madhya Pradesh and applying marketing campaigns in the 1st, 5th and 11th month of the year. 
-Based on our findings in these experiments, we should be able to narrow down the cause of the increasing churn rates. 
+We should experiment with marketing campaigns targeting people around the age of 40, as they exhibit high purchasing power and may be more receptive to retention efforts. 
+We should also consider advertising directly to people living in Assam, where churn rates appear to be higher than in other states. 
+Furthermore people with no children may churn more often due to different financial priorities and lifestyle flexibility, so offering special discounts or tailored incentives for them, could improve retention. 
+Lastly data suggests that new subscriptions peak in the beginning of a new year, so strategic promotions during the December holiday season could help attract and retain customers.   
+By conducting targeted experiments based on these insights, we should be able to refine our understanding of churn drivers and develop more effective customer retention strategies. 
