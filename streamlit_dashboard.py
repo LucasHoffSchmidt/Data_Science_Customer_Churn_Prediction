@@ -70,38 +70,25 @@ st.subheader("Partial Dependence Plots")
 selected_features = st.multiselect(
     "Select variables to display in the Partial Dependence Plots", 
     feature_names, 
-    default=[feature_names[0]]
+    default=feature_names[0]
 )
 
-if len(selected_features) > 1:
-    num_features = len(selected_features)
-    
-    n_cols = 2
-    n_rows = (num_features + n_cols - 1) // n_cols
-    
-    fig, ax = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 6*n_rows))
-    
-    ax = ax.flatten()
-    
-    disp = PartialDependenceDisplay.from_estimator(
-        best_model, 
-        X_train_transformed, 
-        features=selected_features, 
-        feature_names=feature_names, 
-        ax=ax[:num_features]
-    )
-    
-    for j in range(num_features, len(ax)):
-            ax[j].axis("off")
-else:
+# Create a mapping of feature names to their indices
+feature_name_to_index = {name: idx for idx, name in enumerate(feature_names)}
+
+if selected_features:
+    feature_indices = [feature_name_to_index[feature] for feature in selected_features]
     fig, ax = plt.subplots(figsize=(10, 6))
     disp = PartialDependenceDisplay.from_estimator(
         best_model, 
         X_train_transformed, 
-        features=selected_features, 
+        features=feature_indices, 
         feature_names=feature_names, 
+        n_cols=2, 
         ax=ax
     )
+else:
+    st.write("Please select at least one feature to display the partial dependence plot.")
 
 plt.subplots_adjust(hspace=0.5)
 st.pyplot(fig)
