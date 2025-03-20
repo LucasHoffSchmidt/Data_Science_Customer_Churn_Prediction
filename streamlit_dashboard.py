@@ -77,7 +77,7 @@ fig, ax = plt.subplots(figsize=(10, 6))
 disp = PartialDependenceDisplay.from_estimator(
     best_model, 
     X_train_transformed, 
-    features=selected_features, 
+    features=[selected_features], 
     feature_names=feature_names, 
     n_cols=2, 
     ax=ax
