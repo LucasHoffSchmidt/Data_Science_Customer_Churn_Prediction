@@ -70,7 +70,7 @@ st.subheader("Partial Dependence Plots")
 selected_features = st.multiselect(
     "Select variables to display in the Partial Dependence Plots", 
     feature_names, 
-    default=feature_names[0]
+    default=[feature_names[0]]
 )
 
 fig, ax = plt.subplots(figsize=(10, 6))
