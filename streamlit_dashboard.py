@@ -73,15 +73,35 @@ selected_features = st.multiselect(
     default=[feature_names[0]]
 )
 
-fig, ax = plt.subplots(figsize=(10, 6))
-disp = PartialDependenceDisplay.from_estimator(
-    best_model, 
-    X_train_transformed, 
-    features=[selected_features], 
-    feature_names=feature_names, 
-    n_cols=2, 
-    ax=ax
-)
+if len(selected_features) > 1:
+    num_features = len(selected_features)
+    
+    n_cols = 2
+    n_rows = (num_features + n_cols - 1) // n_cols
+    
+    fig, ax = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 6*n_rows))
+    
+    ax = ax.flatten()
+    
+    disp = PartialDependenceDisplay.from_estimator(
+        best_model, 
+        X_train_transformed, 
+        features=selected_features, 
+        feature_names=feature_names, 
+        ax=ax[:num_features]
+    )
+    
+    for j in range(num_features, len(ax)):
+            ax[j].axis("off")
+else:
+    fig, ax = plt.subplots(figsize=(10, 6))
+    disp = PartialDependenceDisplay.from_estimator(
+        best_model, 
+        X_train_transformed, 
+        features=selected_features, 
+        feature_names=feature_names, 
+        ax=ax
+    )
 
 plt.subplots_adjust(hspace=0.5)
 st.pyplot(fig)
