@@ -120,8 +120,9 @@ We save model components in the **.pkl** format and the dataset in the **.parque
 ---
 
 ## Conclusion
-We should experiment with marketing campaigns targeting people around the age of 40, as they exhibit high purchasing power and may be more receptive to retention efforts. 
-We should also consider advertising directly to people living in Assam, where churn rates appear to be higher than in other states. 
-Furthermore people with no children may churn more often due to different financial priorities and lifestyle flexibility, so offering special discounts or tailored incentives for them, could improve retention. 
-Lastly data suggests that new subscriptions peak in the beginning of a new year, so strategic promotions during the December holiday season could help attract and retain customers.   
+- We should experiment with marketing campaigns targeting people around the age of 40, as they exhibit high purchasing power and may be more receptive to retention efforts. 
+- We should also consider advertising directly to people living in Assam, where churn rates appear to be higher than in other states. 
+- Furthermore people with no children may churn more often due to different financial priorities and lifestyle flexibility, so offering special discounts or tailored incentives for them, could improve retention. 
+- Lastly data suggests that new subscriptions peak in the beginning of a new year, so strategic promotions during the December holiday season could help attract and retain customers.   
+
 By conducting targeted experiments based on these insights, we should be able to refine our understanding of churn drivers and develop more effective customer retention strategies. 
