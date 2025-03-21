@@ -67,4 +67,4 @@ st.pyplot(fig)
 
 # Partial Dependence Plots
 st.subheader("Precomputed Partial Dependence Plots")
-st.image("data/pdp.png", use_column_width=True)
+st.image("data/pdp.png", use_container_width=True)
