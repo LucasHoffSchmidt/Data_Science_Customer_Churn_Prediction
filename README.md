@@ -117,6 +117,8 @@ We deploy the model via a **Streamlit dashboard** with interactivity and dynamic
 
 We save model components in the **.pkl** format and the dataset in the **.parquet** format for loading into the Streamlit app.
 
+The streamlit app can be accessed here: [Customer churn streamlit app](https://data-science-customer-churn-prediction.streamlit.app/)
+
 ---
 
 ## Conclusion
