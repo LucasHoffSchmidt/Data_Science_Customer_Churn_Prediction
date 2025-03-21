@@ -73,16 +73,12 @@ selected_features = st.multiselect(
     default=[feature_names[0], feature_names[1]]
 )
 
-# Create a mapping of feature names to their indices
-feature_name_to_index = {name: idx for idx, name in enumerate(feature_names)}
-
 if selected_features:
-    feature_indices = [feature_name_to_index[feature] for feature in selected_features]
     fig, ax = plt.subplots(figsize=(10, 6))
     disp = PartialDependenceDisplay.from_estimator(
         best_model, 
         X_train_transformed, 
-        features=feature_indices, 
+        features=selected_features, 
         feature_names=feature_names, 
         n_cols=2, 
         ax=ax
