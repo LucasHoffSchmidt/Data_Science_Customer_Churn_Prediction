@@ -41,8 +41,6 @@ filtered_df = df[
 # Show filtered dataset
 st.subheader("Filtered Data")
 st.write(filtered_df.head())
-st.write(f"Cloud X_train_transformed shape: {X_train_transformed.shape}")
-st.write(f"Cloud X_test_transformed shape: {X_test_transformed.shape}")
 
 # Churn Distribution
 st.subheader("Churn Distribution")
@@ -64,6 +62,7 @@ record_index = st.number_input("Select a record index:", min_value=0, max_value=
 fig = plt.figure(figsize=(10, 6))
 explainer = shap.Explainer(best_model)
 shap_values = explainer(X_test_transformed)
+shap_values.feature_names = feature_names
 shap.plots.bar(shap_values[record_index])
 st.pyplot(fig)
 
