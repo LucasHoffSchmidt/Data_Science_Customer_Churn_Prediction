@@ -41,6 +41,8 @@ filtered_df = df[
 # Show filtered dataset
 st.subheader("Filtered Data")
 st.write(filtered_df.head())
+st.write(f"Cloud X_train_transformed shape: {X_train_transformed.shape}")
+st.write(f"Cloud X_test_transformed shape: {X_test_transformed.shape}")
 
 # Churn Distribution
 st.subheader("Churn Distribution")
