@@ -60,8 +60,10 @@ st.pyplot(fig)
 st.subheader("SHAP Feature Contributions for Selected Record")
 record_index = st.number_input("Select a record index:", min_value=0, max_value=len(X_train_transformed)-1, step=1)
 fig = plt.figure(figsize=(10, 6))
-explainer = shap.Explainer(best_model, X_test_transformed, feature_names=feature_names)
-shap_values = explainer(X_test_transformed)
+
+X_test_transformed_df = pd.DataFrame(X_test_transformed, columns=feature_names)
+explainer = shap.Explainer(best_model, X_test_transformed_df)
+shap_values = explainer(X_test_transformed_df)
 shap.plots.bar(shap_values[record_index])
 st.pyplot(fig)
 
@@ -77,7 +79,7 @@ if selected_features:
     fig, ax = plt.subplots(figsize=(10, 6))
     disp = PartialDependenceDisplay.from_estimator(
         best_model, 
-        X_train_transformed, 
+        X_test_transformed_df, 
         features=selected_features, 
         feature_names=feature_names, 
         n_cols=2, 
