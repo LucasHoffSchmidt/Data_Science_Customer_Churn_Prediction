@@ -60,33 +60,11 @@ st.pyplot(fig)
 st.subheader("SHAP Feature Contributions for Selected Record")
 record_index = st.number_input("Select a record index:", min_value=0, max_value=len(X_train_transformed)-1, step=1)
 fig = plt.figure(figsize=(10, 6))
-
-X_test_transformed_df = pd.DataFrame(X_test_transformed, columns=feature_names)
-explainer = shap.Explainer(best_model, X_test_transformed_df)
-shap_values = explainer(X_test_transformed_df)
+explainer = shap.Explainer(best_model)
+shap_values = explainer(X_test_transformed)
 shap.plots.bar(shap_values[record_index])
 st.pyplot(fig)
 
 # Partial Dependence Plots
-st.subheader("Partial Dependence Plots")
-selected_features = st.multiselect(
-    "Select variables to display in the Partial Dependence Plots", 
-    feature_names, 
-    default=[feature_names[0], feature_names[1]]
-)
-
-if selected_features:
-    fig, ax = plt.subplots(figsize=(10, 6))
-    disp = PartialDependenceDisplay.from_estimator(
-        best_model, 
-        X_test_transformed_df, 
-        features=selected_features, 
-        feature_names=feature_names, 
-        n_cols=2, 
-        ax=ax
-    )
-else:
-    st.write("Please select at least one feature to display the partial dependence plot.")
-
-plt.subplots_adjust(hspace=0.5)
-st.pyplot(fig)
+st.subheader("Precomputed Partial Dependence Plots")
+st.image("data/pdp.png", use_column_width=True)
