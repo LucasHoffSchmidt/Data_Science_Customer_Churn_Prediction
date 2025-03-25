@@ -66,5 +66,53 @@ shap.plots.bar(shap_values[record_index])
 st.pyplot(fig)
 
 # Partial Dependence Plots
-st.subheader("Precomputed Partial Dependence Plots")
-st.image("data/pdp.png", use_container_width=True)
+st.subheader("Partial Dependence Plots")
+selected_features = st.multiselect(
+    "Select variables to display in the Partial Dependence Plots", 
+    feature_names, 
+    default=[feature_names[0], feature_names[1]]
+)
+
+max_features = 10
+if len(selected_features) > max_features:
+    st.warning(f"You can only select up to {max_features} features. Only the first {max_features} features will be displayed.")
+    selected_features = selected_features[:max_features]
+
+# Increase the size of the plot to fit the entire column space if only one feature is selected
+if len(selected_features) == 1:
+    # If one feature is selected, use a larger figure
+    fig, ax = plt.subplots(figsize=(10, 6))
+    PartialDependenceDisplay.from_estimator(
+        best_model, 
+        X_train_transformed, 
+        features=[selected_features[0]], 
+        feature_names=feature_names, 
+        ax=ax
+    )
+    st.pyplot(fig)  # Display the plot for the single feature
+# Decrease the size of each plot to fit half of the column space if 2 or more features are selected
+else:
+    # If multiple features are selected, arrange them in two columns
+    n_cols = 2
+    n_rows = (len(selected_features) + 1) // n_cols  # Ensure we get enough rows for the features
+    fig, ax = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 6))
+
+    ax = ax.flatten()  # Flatten the axes array to reduce it to one dimension
+
+    # Plot a partial dependence plot for each selected feature
+    for i, feature in enumerate(selected_features):
+        PartialDependenceDisplay.from_estimator(
+            best_model, 
+            X_train_transformed, 
+            features=[feature], 
+            feature_names=feature_names, 
+            ax=ax[i]
+        )
+
+    # Remove any unused subplots due to an uneven number of selected_features
+    for i in range(len(selected_features), len(ax)):
+        fig.delaxes(ax[i])  
+
+    # Adjust spacing to make sure plots don't overlap
+    plt.subplots_adjust(hspace=0.5)
+    st.pyplot(fig)  # Display the partial dependence plots
