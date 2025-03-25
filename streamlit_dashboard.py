@@ -44,7 +44,7 @@ st.write(filtered_df.head())
 # Churn Distribution
 st.subheader("Churn Distribution")
 fig, ax = plt.subplots()
-sns.countplot(x="churn", data=filtered_df, ax=ax)
+sns.countplot(data=filtered_df, x="churn", ax=ax)
 ax.set_xticks([0, 1])
 ax.set_xticklabels(["Not Churned", "Churned"])
 st.pyplot(fig)
