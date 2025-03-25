@@ -56,8 +56,8 @@ sns.histplot(filtered_df["age"], bins=20, kde=True, ax=ax)
 st.pyplot(fig)
 
 # SHAP feature importances for each customer churn prediction
-st.subheader("SHAP Feature Contributions for Selected Record")
-record_index = st.number_input("Select a record index:", min_value=0, max_value=len(X_train_transformed)-1, step=1)
+st.subheader("SHAP Feature Importances for the selected customer churn prediction")
+record_index = st.number_input("Select a customer index:", min_value=0, max_value=len(X_train_transformed)-1, step=1)
 fig = plt.figure(figsize=(10, 6))
 explainer = shap.Explainer(best_model, X_test_transformed, feature_names=feature_names)
 shap_values = explainer(X_test_transformed)
