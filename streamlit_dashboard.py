@@ -58,24 +58,45 @@ st.pyplot(fig)
 # SHAP feature importances for each customer churn prediction
 st.subheader("SHAP Feature Importances for the selected customer churn prediction")
 record_index = st.number_input("Select a customer index:", min_value=0, max_value=len(X_train_transformed)-1, step=1)
+
+# Creates a placeholder for the SHAP feature importances plot
+shap_feature_importance_placeholder = st.empty()
+
+# Updates SHAP feature importances plot when customer index changes
+@st.cache_data
+def get_shap_values_for_record():
+    explainer = shap.Explainer(best_model, X_test_transformed, feature_names=feature_names)
+    shap_values = explainer(X_test_transformed)
+    return shap_values
+
+shap_values = get_shap_values_for_record()
+
 fig = plt.figure(figsize=(10, 6))
-explainer = shap.Explainer(best_model, X_test_transformed, feature_names=feature_names)
-shap_values = explainer(X_test_transformed)
 shap.plots.bar(shap_values[record_index])
-st.pyplot(fig)
+shap_feature_importance_placeholder.pyplot(fig, clear_figure=True)
 
 # SHAP global feature dependence
-st.subheader("SHAP Feature Dependence Plot")
+st.subheader("SHAP Feature Dependence Plots")
 selected_feature = st.selectbox(
-    "Select a feature to display its dependence plot", 
+    "Select a feature to display in the dependence plot", 
     feature_names, 
     index=1
 )
 
+# Creates a placeholder for the SHAP global feature dependence plot
+shap_global_feature_dependence_placeholder = st.empty()
+
+# Converts X_train_transformed to a dataframe
 X_train_transformed_df = pd.DataFrame(X_train_transformed, columns=feature_names)
 
-explainer_train = shap.Explainer(best_model, X_train_transformed_df)
-shap_values_train = explainer_train(X_train_transformed_df)
+# Updates SHAP global feature dependence plot when selected feature changes
+@st.cache_data
+def get_shap_values_for_global_dependence():
+    explainer_train = shap.Explainer(best_model, X_train_transformed_df)
+    shap_values_train = explainer_train(X_train_transformed_df)
+    return shap_values_train
+
+shap_values_train = get_shap_values_for_global_dependence()
 
 fig, ax = plt.subplots(figsize=(10, 6))
 shap.dependence_plot(
@@ -84,4 +105,4 @@ shap.dependence_plot(
     X_train_transformed_df, 
     ax=ax
 )
-st.pyplot(fig) # Display the plot for each feature
+shap_global_feature_dependence_placeholder.pyplot(fig, clear_figure=True)
