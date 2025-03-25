@@ -97,8 +97,6 @@ else:
     n_rows = (len(selected_features) + 1) // n_cols  # Ensure we get enough rows for the features
     fig, ax = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 6))
 
-    ax = ax.flatten()  # Flatten the axes array to reduce it to one dimension
-
     # Plot a partial dependence plot for each selected feature
     for i, feature in enumerate(selected_features):
         PartialDependenceDisplay.from_estimator(
