@@ -65,9 +65,9 @@ shap.plots.bar(shap_values[record_index])
 st.pyplot(fig)
 
 # SHAP global feature dependence
-st.subheader("Feature Dependence Plots")
+st.subheader("SHAP Feature Dependence Plot")
 selected_feature = st.selectbox(
-    "Select a feature to display in the dependence plot", 
+    "Select a feature to display its dependence plot", 
     feature_names, 
     index=1
 )
