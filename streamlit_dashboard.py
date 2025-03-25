@@ -14,7 +14,6 @@ def load_data():
 df = load_data()
 
 best_model = joblib.load("data/best_model.pkl")
-best_preprocessor = joblib.load("data/best_preprocessor.pkl")
 X_train_transformed = joblib.load("data/X_train_transformed.pkl")
 X_test_transformed = joblib.load("data/X_test_transformed.pkl")
 feature_names = joblib.load("data/feature_names.pkl")
@@ -56,7 +55,7 @@ fig, ax = plt.subplots()
 sns.histplot(filtered_df["age"], bins=20, kde=True, ax=ax)
 st.pyplot(fig)
 
-# SHAP Bar Plot for Single Record
+# SHAP feature importances for each customer churn prediction
 st.subheader("SHAP Feature Contributions for Selected Record")
 record_index = st.number_input("Select a record index:", min_value=0, max_value=len(X_train_transformed)-1, step=1)
 fig = plt.figure(figsize=(10, 6))
@@ -65,52 +64,24 @@ shap_values = explainer(X_test_transformed)
 shap.plots.bar(shap_values[record_index])
 st.pyplot(fig)
 
-# Partial Dependence Plots
-st.subheader("Partial Dependence Plots")
-selected_features = st.multiselect(
-    "Select variables to display in the Partial Dependence Plots", 
+# SHAP global feature dependence
+st.subheader("Feature Dependence Plots")
+selected_feature = st.selectbox(
+    "Select a feature to display in the dependence plot", 
     feature_names, 
-    default=[feature_names[0], feature_names[1]]
+    index=1
 )
 
-max_features = 10
-if len(selected_features) > max_features:
-    st.warning(f"You can only select up to {max_features} features. Only the first {max_features} features will be displayed.")
-    selected_features = selected_features[:max_features]
+X_train_transformed_df = pd.DataFrame(X_train_transformed, columns=feature_names)
 
-# Increase the size of the plot to fit the entire column space if only one feature is selected
-if len(selected_features) == 1:
-    # If one feature is selected, use a larger figure
-    fig, ax = plt.subplots(figsize=(10, 6))
-    PartialDependenceDisplay.from_estimator(
-        best_model, 
-        X_train_transformed, 
-        features=[selected_features[0]], 
-        feature_names=feature_names, 
-        ax=ax
-    )
-    st.pyplot(fig)  # Display the plot for the single feature
-# Decrease the size of each plot to fit half of the column space if 2 or more features are selected
-else:
-    # If multiple features are selected, arrange them in two columns
-    n_cols = 2
-    n_rows = (len(selected_features) + 1) // n_cols  # Ensure we get enough rows for the features
-    fig, ax = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 6))
+explainer_train = shap.Explainer(best_model, X_train_transformed_df)
+shap_values_train = explainer_train(X_train_transformed_df)
 
-    # Plot a partial dependence plot for each selected feature
-    for i, feature in enumerate(selected_features):
-        PartialDependenceDisplay.from_estimator(
-            best_model, 
-            X_train_transformed, 
-            features=[feature], 
-            feature_names=feature_names, 
-            ax=ax[i]
-        )
-
-    # Remove any unused subplots due to an uneven number of selected_features
-    for i in range(len(selected_features), len(ax)):
-        fig.delaxes(ax[i])  
-
-    # Adjust spacing to make sure plots don't overlap
-    plt.subplots_adjust(hspace=0.5)
-    st.pyplot(fig)  # Display the partial dependence plots
+fig, ax = plt.subplots(figsize=(10, 6))
+shap.dependence_plot(
+    selected_feature, 
+    shap_values_train.values, 
+    X_train_transformed_df, 
+    ax=ax
+)
+st.pyplot(fig) # Display the plot for each feature
