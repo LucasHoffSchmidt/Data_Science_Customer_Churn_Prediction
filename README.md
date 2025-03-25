@@ -47,18 +47,19 @@ We also visualize the distribution of features and their relationship with the t
 
 ## 🔧 Data Preprocessing
 
-In the preprocessing stage, we check for missing and invalid values, remove duplicates and create new features. The following changes were applied:
+In the preprocessing stage, we handle missing and invalid values, remove duplicates and transform features to prepare for machine learning. 
+The following changes were applied:
 
-1. **date_of_registration** converted from **object** to **datetime**.
-2. Removed any leading or trailing spaces from categorical features.
-3. Created new **binned features**:
+1. Removed any leading or trailing spaces from categorical features.
+2. Created new **binned features**:
    - **age_bracket**: Categorical variable (young, middle-aged, old).
    - **salary_bracket**: Categorical variable (low_salary, mid_salary, high_salary).
    - **month**: The month (1-12) when the customer registered with the telecom provider.
-4. **Visualization** of churn rate for the new variables reveals:
+3. **Visualization** of churn rate for the binned features reveal:
    - **Age bracket** has minimal impact on churn.
    - **Salary bracket** has moderate impact on churn.
    - **Month** has a significant impact on churn.
+4. **date_of_registration** converted from **object** to **datetime**.
 5. We drop variables with **high cardinality** (many unique values) and those with **low variance** between churn and no churn. 
 
 ---
@@ -95,11 +96,12 @@ We interpret the model using:
 - **Partial Dependence Plots (PDP)** to examine the isolated impact of selected features on churn.
 
 ### Findings:
-- The state of Chennai seems to strongly induce non-churning. It has both the highest model feature importance at 0.05 and the lowest mean shap value of -0.12.
-- Age fluctuates a lot and may both contribute positively and negatively to churning. On average it induces churn, with higher churn rates at about 20, 40 and 65 years old.
-- The state of Assam seems to moderately cause churn with the highest mean shap value and a partial dependence value of more than 0.25.
-- Number of children (num_dependents) seem to strongly induce non-churning at 1 and 4 children, having an average SHAP value of -0.11 and -0.07 respectively.
-- The first month also seems to consistently be related with low churning, with high importance in both feature importance, shap summary plot, mean shap value at -0.07 and a high number of negative shap values at 1573.
+- The state of Chennai seems to strongly induce non-churning. It has both the highest model feature importance at 0.08 and the lowest mean shap value of -0.2.
+- Age fluctuates a lot and contributes both positively and negatively to churning. On average it induces non-churning at a mean shap value of -0.02. It has higher churn rates at about 20, 30 and 40 years old.
+- The state of Rajasthan seems to increase the likelihood of churn on average with the highest mean shap value at 0.01 and a partial dependence value of about 0.28 for churning.
+- Number of children (num_dependents) seem to have the highest likelihood of churning at 0 children and the lowest at 3 children, according to the partial dependence plot.
+- The month contributes both positively and negatively to churning. On average it slightly induces non-churning at a mean shap value of -0.01. The month that seems to have the highest churn rate is January according to the partial dependence plot.
+- The telecom partner of Airtel seems to strongly induce non-churning with a mean shap value of -0.18, primarily negative shap values at -1309 negative and 691 positive and a partial dependence value at about 0.21 for non-churning and 0.18 for churning.  
 
 ---
 
@@ -108,23 +110,23 @@ We interpret the model using:
 We deploy the model via a **Streamlit dashboard** with interactivity and dynamic visuals. Key features include:
 
 - A **title** for the dashboard.
-- **Sidebar filters** to change the variables and update visuals dynamically.
+- **Sidebar filters** to change the feature variables and update visuals dynamically.
 - A **filtered dataset** that reflects the changes based on the selected filters.
 - A **countplot** showing churn distribution.
-- A **histplot with KDE** for age distribution.
+- A **histplot with KDE** showing age distribution.
 - A **SHAP individual feature contribution plot** to see feature contributions to churn prediction for the selected customer.
-- **Partial dependence plots** for the selected variables.
+- A **SHAP dependence plot** for the selected feature.
 
-We save model components in the **.pkl** format and the dataset in the **.parquet** format for loading into the Streamlit app.
+We save model components in the **.pkl** format and the dataset in the performant **.parquet** format for loading into the Streamlit app.
 
 The streamlit app can be accessed here: [Customer churn streamlit app](https://data-science-customer-churn-prediction.streamlit.app/)
 
 ---
 
 ## Conclusion
-- We should experiment with marketing campaigns targeting people around the age of 40, as they exhibit high purchasing power and may be more receptive to retention efforts. 
-- We should also consider advertising directly to people living in Assam, where churn rates appear to be higher than in other states. 
+- We should experiment with marketing campaigns targeting people around the age of 40, as they exhibit high purchasing power and may be more receptive to retention efforts than the higher churning 20 year olds, whose loyalty might be hardwon due to changing preferences. 
+- We should also consider advertising directly to people living in Rajasthan, where churn rates appear to be higher than in other states. 
 - Furthermore people with no children may churn more often due to different financial priorities and lifestyle flexibility, so offering special discounts or tailored incentives for them, could improve retention. 
-- Lastly data suggests that new subscriptions peak in the beginning of a new year, so strategic promotions during the December holiday season could help attract and retain customers.   
+- Lastly data suggests that new subscriptions peak in the beginning of a new year, where people decide that it is time for a change. Strategic promotions during the December holiday season could therefore help attract customers and exclusive loyalty opportunities could help retain customers.   
 
 By conducting targeted experiments based on these insights, we should be able to refine our understanding of churn drivers and develop more effective customer retention strategies. 
