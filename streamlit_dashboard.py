@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
-from sklearn.inspection import PartialDependenceDisplay
 
 # Loading variables
 @st.cache_data
@@ -75,8 +74,8 @@ fig = plt.figure(figsize=(10, 6))
 shap.plots.bar(shap_values[record_index])
 shap_feature_importance_placeholder.pyplot(fig, clear_figure=True)
 
-# SHAP global feature dependence
-st.subheader("SHAP Feature Dependence Plots")
+# SHAP feature dependence plot
+st.subheader("SHAP Feature Dependence Plot")
 selected_feature = st.selectbox(
     "Select a feature to display in the dependence plot", 
     feature_names, 
@@ -89,9 +88,9 @@ shap_global_feature_dependence_placeholder = st.empty()
 # Converts X_train_transformed to a dataframe
 X_train_transformed_df = pd.DataFrame(X_train_transformed, columns=feature_names)
 
-# Updates SHAP global feature dependence plot when selected feature changes
+# Updates SHAP feature dependence plot when selected feature changes
 @st.cache_data
-def get_shap_values_for_global_dependence():
+def get_shap_values_for_feature_dependence():
     explainer_train = shap.Explainer(best_model, X_train_transformed_df)
     shap_values_train = explainer_train(X_train_transformed_df)
     return shap_values_train
