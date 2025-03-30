@@ -95,7 +95,7 @@ def get_shap_values_for_feature_dependence():
     shap_values_train = explainer_train(X_train_transformed_df)
     return shap_values_train
 
-shap_values_train = get_shap_values_for_global_dependence()
+shap_values_train = get_shap_values_for_feature_dependence()
 
 fig, ax = plt.subplots(figsize=(10, 6))
 shap.dependence_plot(
