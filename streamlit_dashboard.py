@@ -42,16 +42,15 @@ st.write(filtered_df.head())
 
 # Churn Distribution
 st.subheader("Churn Distribution")
-fig, ax = plt.subplots()
-sns.countplot(data=filtered_df, x="churn", ax=ax)
-ax.set_xticks([0, 1])
-ax.set_xticklabels(["Not Churned", "Churned"])
+fig = plt.figure(figsize=(10, 6))
+sns.countplot(data=filtered_df, x="churn")
+plt.xticks([0, 1], ["Not Churned", "Churned"])
 st.pyplot(fig)
 
 # Age Distribution
 st.subheader("Age Distribution")
-fig, ax = plt.subplots()
-sns.histplot(filtered_df["age"], bins=20, kde=True, ax=ax)
+fig = plt.figure(figsize=(10, 6))
+sns.histplot(filtered_df["age"], bins=20, kde=True)
 st.pyplot(fig)
 
 # SHAP feature importances for each customer churn prediction
