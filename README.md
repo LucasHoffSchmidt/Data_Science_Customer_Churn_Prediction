@@ -137,10 +137,10 @@ Create a streamlit interactive dashboard with relevant visualizations.
    - A **SHAP dependence plot** for the selected feature.
 - We save model components in the **.pkl** format and the dataset in the performant **.parquet** format for loading into the Streamlit app.
 
-The streamlit app can be accessed here: [Customer churn streamlit app](https://data-science-customer-churn-prediction.streamlit.app/)
+The streamlit app can be accessed here: [Customer Churn Streamlit App](https://data-science-customer-churn-prediction.streamlit.app/)
 
 ### Findings
- - The launched model performs well with cached data that enables one time loading and subsequent real-time interactive analysis. 
+ - The launched model performs well with cached data that enables one-time loading and subsequent real-time interactive analysis. 
 
 ---
 
@@ -151,9 +151,9 @@ The streamlit app can be accessed here: [Customer churn streamlit app](https://d
    - High data usage.
    - Customers with children.
    - Women.
-- **To drive retention we should therefore:**
+- **To drive retention we should:**
    - Look out for customers with low engagement, and offer them tailored deals such as bonuses or a loyalty program that allows them to earn spending points by calling and texting.
-   - Create holidaythemed competitions later in the year, to stimulate and engage customers.
-   - Create data heavy subscription packages with a lesser focus on calls and sms' sent.
+   - Create holiday-themed competitions later in the year, to stimulate and engage customers.
+   - Create data-heavy subscription packages with a lesser focus on calls and sms' sent.
    - Provide family packages to incentivize families to keep their subscription, as well as sign up their children for one.
-   - Create a feedback function that allow people to voice wishes and concerns, to reveal the most important drivers for women, and subsequently implementing these. 
+   - Create a feedback function that allows people to voice wishes and concerns, to reveal the most important drivers for women, and subsequently implementing these. 
