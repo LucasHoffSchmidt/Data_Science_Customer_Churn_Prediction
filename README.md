@@ -1,9 +1,7 @@
 # Data Science: Customer Churn Prediction
-
 This project seeks to identify customers at risk of churning and provide insights into how we can reduce churn rates.
 
 ## 📊 Business Problem
-
 We are an Indian telecom company selling phone subscriptions to customers. We have seen a rise in the amount of customers who are churning and would like to know why this might be the case and what we can do about it.
 
 ## 📂 Data Collection
@@ -31,7 +29,7 @@ To find relevant telecom customer data that includes whether or not the customer
    - **churn**: Binary variable indicating if the customer churned (1 = churned, 0 = not churned).
 
 ### Findings
-- We notice that calls_made has a negative value of -2, which we keep in mind for future sections.
+- We notice that calls_made has a negative value of -2, which is not a realistic number. The lowest number of calls should be 0, indicating that the customer has made no calls at all. 
 
 ---
 
@@ -76,7 +74,7 @@ Handle missing and invalid values, remove any duplicates or outliers found durin
 
 ### Findings
 - There are no duplicates, missing or invalid values in the dataset
-- We keep the aggregated features we made of salary, data used and month, since they all show clear variations. 
+- We keep the aggregated features salary, data used and month, since they all show clear variations. 
 - We drop any high cardinality features to ensure machine learning models generalize, rather than memorize, reducing the likelihood of overfitting.
 
 ---
@@ -116,7 +114,7 @@ To explain how the model makes predictions, by analyzing the impact of features.
 - **Later months** increases the likelihood of churn, while **earlier months** reduce it.
 - **High data usage** is linked to churning.
 - Customers with more **children and females** increase the likelihood of churning. 
-- The model performs just slightly better thatn random guessing at distinguishing churning from non-churning, presumably due to low correlation between features and churn with the highest numerical correlation being 0.01.
+- The model performs just slightly better than random guessing at distinguishing churning from non-churning, presumably due to low correlation between features and churn with the highest numerical correlation being 0.01.
 
 ---
 
