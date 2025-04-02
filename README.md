@@ -6,7 +6,7 @@ We are an Indian telecom company selling phone subscriptions to customers. We ha
 
 ## 📂 Data Collection
 ### Objective
-To find relevant telecom customer data that includes whether or not the customer has churned. 
+Find relevant telecom customer data that includes whether or not the customer has churned. 
 
 ### Process
 - Searched for telecom datasets.
@@ -102,7 +102,7 @@ We determine that the best model is XGBoost with a recall of 0.1910, an f1_score
 
 ## 🧐 Model Interpretation
 ### Objective
-To explain how the model makes predictions, by analyzing the impact of features. 
+Explain how the model makes predictions, by analyzing the impact of features. 
 
 ### Process
 - Made a **feature importances plot** that shows the feature's impact on the model's decision making process.
@@ -124,15 +124,15 @@ To explain how the model makes predictions, by analyzing the impact of features.
 
 ## 🚀 Model Deployment
 ### Objective
-To create a streamlit interactive dashboard with relevant visualizations. 
+Create a streamlit interactive dashboard with relevant visualizations. 
 
 ### Process
 - We create an interactive streamlit dashboard with the following features:
    - A **title** for the dashboard.
    - **Sidebar filters** to change the feature variables and update visuals dynamically.
    - A **filtered dataset** that reflects the changes based on the selected filters.
-   - A **countplot** showing churn distribution.
-   - A **histplot with KDE** showing age distribution.
+   - A **countplot** showing churn distribution for the filtered dataset.
+   - A **histplot with KDE** showing age distribution for the filtered dataset.
    - A **SHAP individual feature contribution plot** to see feature contributions to churn prediction for the selected customer.
    - A **SHAP dependence plot** for the selected feature.
 - We save model components in the **.pkl** format and the dataset in the performant **.parquet** format for loading into the Streamlit app.
