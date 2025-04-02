@@ -79,7 +79,7 @@ Handle invalid values, remove any duplicates or outliers found during EDA and en
 
 ### Findings
 - There are no duplicates or invalid values in the dataset.
-- We determined 5 high cardinality features with more than 10% unique values. 
+- There are 5 high cardinality features in the dataset with more than 10% unique values. 
 
 ---
 
