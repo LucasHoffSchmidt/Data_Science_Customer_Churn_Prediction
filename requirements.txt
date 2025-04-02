@@ -4,5 +4,3 @@ pandas
 matplotlib
 seaborn
 joblib
-scikit-learn
-xgboost
