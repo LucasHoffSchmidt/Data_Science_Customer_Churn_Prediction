@@ -79,8 +79,7 @@ Handle invalid values, remove any duplicates or outliers found during EDA and en
 
 ### Findings
 - There are no duplicates or invalid values in the dataset.
-- We keep the aggregated features salary, data used and month, since they all show clear variations. 
-- We drop any high cardinality features to ensure machine learning models generalize, rather than memorize, reducing the likelihood of overfitting.
+- We determined 5 high cardinality features with more than 10% unique values. 
 
 ---
 
