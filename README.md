@@ -42,7 +42,12 @@ Identify and fix obvious data errors such as incorrect data types and missing va
 - Changed the data type of date_of_registration to datetime.
 - Checked the **statistical distribution** of attributes and notice negative values for the features calls_made, sms_sent and data_used.
 - Limited the lower bound of features with negative values to 0.
-- Used matplotlib and seaborn to **visualize features** relationship with the target variable using histograms, heatmaps, count plots, bar plots, box plots and line plots.
+- Made histograms of features compared to churn.
+- Made a heatmap to show the correlations between numerical features and churn.
+- Made a lineplot of the date of registration vs churn to see the variation in churning over time.
+- Made a countplot of churn to see the distribution of churning and non-churning customers overall. 
+- Made barplots of categorical features vs churn to see how churn varied across feature values.
+- Made boxplots of higher cardinality features to see their distribution for churning and non-churning customers.
 
 ### Findings
 - The dataset has no null values.
