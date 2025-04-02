@@ -64,10 +64,10 @@ Identify and fix obvious data errors such as incorrect data types and missing va
 
 ## 🔧 Data Preprocessing
 ### Objective
-Handle missing and invalid values, remove any duplicates or outliers found during EDA and ensure we have the necessary features needed for machine learning. 
+Handle invalid values, remove any duplicates or outliers found during EDA and ensure we have the necessary features needed for machine learning. 
 
 ### Process
-- Removed any duplicate rows
+- Checked for duplicate rows. 
 - Checked that we have no ages less than 0.
 - Checked for invalid churn values.
 - Removed any leading and trailing spaces from categorical features.
